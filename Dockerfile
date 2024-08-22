@@ -1,5 +1,9 @@
 # Stage 1: Build
-FROM maven:3.9.1-openjdk-17 AS build
+FROM ubuntu:latest AS build
+
+# Install OpenJDK 17
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk maven
 
 # Set the working directory
 WORKDIR /app
@@ -17,7 +21,7 @@ FROM openjdk:17-jdk-slim
 EXPOSE 8080
 
 # Copy the JAR file from the build stage into the runtime stage
-COPY --from=build /app/target/auth-api-1.0.0.jar app.jar
+COPY --from=build /app/target/auth-api-1.0.0.jar /app.jar
 
 # Define the command to run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
