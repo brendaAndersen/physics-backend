@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM maven:3.9.2-openjdk-17 AS build
+FROM maven:3.9.1-openjdk-17 AS build
 
 # Set the working directory
 WORKDIR /app
