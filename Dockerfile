@@ -1,23 +1,23 @@
-# Etapa de construção
-FROM maven:3.9.1-openjdk-17 AS build
+# Stage 1: Build
+FROM maven:3.9.2-openjdk-17 AS build
 
-# Defina o diretório de trabalho
+# Set the working directory
 WORKDIR /app
 
-# Copie o código fonte para o diretório de trabalho
+# Copy the project files into the container
 COPY . .
 
-# Execute o build do Maven para gerar o JAR
+# Build the project and package it as a JAR file
 RUN mvn clean package -DskipTests
 
-# Etapa de execução
+# Stage 2: Runtime
 FROM openjdk:17-jdk-slim
 
-# Exponha a porta que a aplicação vai utilizar
+# Expose the port the application will run on
 EXPOSE 8080
 
-# Copie o JAR do diretório target da etapa anterior para o diretório atual
+# Copy the JAR file from the build stage into the runtime stage
 COPY --from=build /app/target/auth-api-1.0.0.jar app.jar
 
-# Comando para executar a aplicação
+# Define the command to run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
