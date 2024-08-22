@@ -31,7 +31,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     private final TokenService tokenService;
-
+    @CrossOrigin(origins = "https://physics-backend.onrender.com")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO body){
         User user = this.repository.findByEmail(body.email()).orElseThrow(() -> new RuntimeException("User not found"));
@@ -41,7 +41,7 @@ public class AuthController {
         }
         return ResponseEntity.badRequest().build();
     }
-
+    @CrossOrigin(origins = "https://physics-backend.onrender.com")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterRequestDTO body){
         Optional<User> user = this.repository.findByEmail(body.email());
