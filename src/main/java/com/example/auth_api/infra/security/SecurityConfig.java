@@ -35,7 +35,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/user").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class); //verificações do header de auth
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) //verificações do header de auth
+                .cors();
         return http.build();
     }
 
